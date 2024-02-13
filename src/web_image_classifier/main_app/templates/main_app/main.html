@@ -1,0 +1,43 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+    <div class="container">
+      <div class="row top">
+        <div class="twelve column">
+          <h1 class="main-h1">Web Image Classifier</h1>
+          <h3 class="main-h3 main-text">
+              This web service classifies images using<br>
+              <i>convolutional neural networks</i>.<br>
+              The <u><a class="main-text" href="https://www.kaggle.com/c/cifar-10">CIFAR-10</a></u> dataset was used for training.<br>
+              A neural network capable of assigning an image<br>
+              to one of the available classes.<br>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="one-half column">
+          <div class="pulled">
+            <h2 class="main-h2">Model parameters</h2>
+            <ul class="main-text">
+                <li><p>Model type: Convolutional</p></li>
+                <li><p>Layers: MaxPooling2D, Conv2D</p></li>
+                <li><p>Training epochs: 100</p></li>
+                <li><p>Optimizer: adam</p></li>
+                <li><p>Loss function: categorical crossentropy</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="one-half column">
+          <div class="posts pulled">
+            <h2 class="main-h2">Available classes</h2>
+              <p class="main-text">
+                {% for class in classes %}
+                  {{ class|upper }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

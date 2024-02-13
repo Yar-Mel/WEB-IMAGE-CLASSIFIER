@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Web Image Classifier</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main_app/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/header.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/main.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/footer.css' %}">
+    </head>
+    <body>
+        {% include 'main_app/header.html' %}
+        {% block content %}
+        {% endblock %}
+        {% include 'main_app/footer.html' %}
+        <!--Load Script-->
+        <div id="particles-js"></div>
+        <script src="{%static 'particles/particles.js' %}"></script>
+        <script src="{%static 'particles/app.js' %}"></script>
+    </body>
+</html>
