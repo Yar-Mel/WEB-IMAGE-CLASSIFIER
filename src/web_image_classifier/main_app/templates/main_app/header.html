@@ -3,8 +3,9 @@
         <a href="https://github.com/Yar-Mel/WEB-IMAGE-CLASSIFIER">PyCrafters Team Project</a>
     </h3>
     <ul class="nav">
-        <li><a class="btn bg-sapling" onclick="" id="get_started_link" href="/">Get Started</a></li>
-        <li><a href="#">Detail information</a></li>
-        <li><a href="#">Statistic</a></li>
+        <li><button type="button" class="btn start-btn" id="start-btn">Get Started</button></li>
+        <li><a href="\">Main Page</a></li>
+        <li><a href="{% url 'main_app:information' %}">Detail information</a></li>
+        <li><a href="{% url 'main_app:statistic' %}">Statistic</a></li>
     </ul>
 </header>

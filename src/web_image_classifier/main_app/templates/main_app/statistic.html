@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "main_app/index.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+      <div class="row top">
+        <div class="twelve column">
+          <h1 class="main-h1">Current accuracy on user data:
+              {% if accuracy > 0.9 %}
+              <span style="color: #1DA551">{{ accuracy }}%</span>
+              {% elif 0.5 < accuracy and accuracy < 0.9 %}
+              <span style="color: #FFD60A">{{ accuracy }}%</span>
+              {% elif accuracy < 0.5 %}
+              <span style="color: #BA0000">{{ accuracy }}%</span>
+              {% endif %}
+          </h1>
+        </div>
+      </div>
+    </div>
+{% endblock %}
