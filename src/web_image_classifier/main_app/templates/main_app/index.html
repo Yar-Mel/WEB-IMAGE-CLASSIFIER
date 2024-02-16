@@ -4,24 +4,22 @@
         <meta charset="UTF-8">
         <title>Web Image Classifier</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'main_app/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'main_app/header.css' %}">
-        <link rel="stylesheet" href="{% static 'main_app/upload_dialog.css' %}">
-        <link rel="stylesheet" href="{% static 'main_app/main.css' %}">
-        <link rel="stylesheet" href="{% static 'main_app/footer.css' %}">
-        <script src="{%static 'js/main/upload_dialog.js' %}" defer></script>
-        <script src="{%static 'js/main/upload_image.js' %}" defer></script>
-        <script src="{%static 'js/main/results_dialog.js' %}" defer></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/model_dialog.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/footer.css' %}">
+        <script src="{% static 'main_app/js/jquery-3.7.1.min.js' %}" defer></script>
+        <script src="{% static 'main_app/js/model_dialog.js' %}" defer></script>
     </head>
     <body>
         {% include 'main_app/header.html' %}
-        {% include 'main_app/upload_dialog.html' %}
+        {% include 'main_app/model_dialog.html' %}
         {% block content %}
         {% endblock %}
         {% include 'main_app/footer.html' %}
         <div id="particles-js"></div>
-        <script src="{%static 'js/particles/particles.js' %}"></script>
-        <script src="{%static 'js/particles/app.js' %}"></script>
+        <script src="{% static 'main_app/js/particles/particles.js' %}"></script>
+        <script src="{% static 'main_app/js/particles/app.js' %}"></script>
     </body>
 </html>

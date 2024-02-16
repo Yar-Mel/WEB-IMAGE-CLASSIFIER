@@ -6,10 +6,12 @@ authors = ["Yaroslav Melnychuk <yarmel.dev@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.10,<3.12"
 django = "^5.0.2"
-python-dotenv = "^1.0.1"
+numpy = "^1.26.4"
 pillow = "^10.2.0"
+python-dotenv = "^1.0.1"
+keras = "^3.0.5"
 
 
 [build-system]

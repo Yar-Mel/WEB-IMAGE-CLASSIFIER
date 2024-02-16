@@ -1,0 +1,35 @@
+<div id="model-dialog" class="modal">
+  <div class="modal-content">
+    <div class="modal-header" style="height: 50px">
+      <span class="close" id="close-btn">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="alert-box"></div>
+      <div id="image-box" class="center"></div>
+      <br>
+      <form id="upload-form" class="center" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+      </form>
+      <br>
+      <div id="upload-progress-box" class="not-visible"></div>
+      <br>
+      <div id="classification-box" class="not-visible">
+        <button  type="button"
+                 id="classification-btn"
+                 data-url="{% url 'main_app:results' %}"
+                 class="btn btn-success alink">Start Classification
+        </button>
+        <br>
+        <div><p id="first"></p></div>
+        <div><p id="second"></p></div>
+        <div><p id="third"></p></div>
+      </div>
+    </div>
+    <div class="modal-footer center" style="height: 50px">
+      <div id="cancel-box" class="not-visible">
+        <button id="cancel-btn" class="btn btn-danger">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
