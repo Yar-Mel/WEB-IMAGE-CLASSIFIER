@@ -6,6 +6,7 @@ from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
 import matplotlib.pyplot as plt
+import io
 
 
 
@@ -102,6 +103,7 @@ class Classification:
 
         if self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
             image_array = self.process_image_raster(self.image_file)
+            print('image_array')
             predictions = self.get_prediction(image_array, self.model)
         elif self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['vector']):
             image_array = self.process_image_vector(self.image_file)
@@ -120,6 +122,7 @@ class Classification:
         Returns:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
         """
+        print(type(image_file))
         image = Image.open(image_file)
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
