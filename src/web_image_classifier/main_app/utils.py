@@ -10,36 +10,53 @@ from typing import Tuple
 
 class UploadProcessing:
     def __init__(self, allowed_extensions=('.jpg', '.jpeg', '.SVG'), max_size=50):
-        self._image_file = None
+        """
+        Инициализирует объект UploadProcessing.
+
+        Parameters:
+        - allowed_extensions (tuple): Кортеж допустимых расширений файлов изображений. По умолчанию ('.jpg', '.jpeg', '.SVG').
+        - max_size (int): Максимальный допустимый размер файла изображения в мегабайтах. По умолчанию 50 MB.
+        """
+        self._image = None
         self.allowed_extensions = allowed_extensions
         self.max_size = max_size
 
     @property
     def image_file(self):
-        return self._image_file
+        """
+        Возвращает файл изображения.
+        """
+        return self._image
 
     @image_file.setter
     def image_file(self, value):
-        self._validate_image(value)
-        self._image_file = value
+        """
+        Устанавливает файл изображения и выполняет его валидацию.
 
-    def _validate_image(self, image_file):
+        Parameters:
+        - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+        """
+        self._validate_image(value)
+        self._image = value
+
+    def _validate_image(self, image):
         """
         Проверяет расширение и размер изображения.
 
         Parameters:
-        - image_file (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+        - image (InMemoryUploadedFile): Файл изображения, полученный из запроса.
         """
         # Проверяем расширение файла
-        if not image_file.name.lower().endswith(self.allowed_extensions):
+        if not image.name.lower().endswith(self.allowed_extensions):
             raise HttpResponseBadRequest(
                 f"Неверное расширение изображения. Пожалуйста, загрузите файлы с расширением {', '.join(self.allowed_extensions)}.")
 
         # Проверяем размер файла
         max_size_bytes = self.max_size * 1024 * 1024
-        if image_file.size > max_size_bytes:
+        if image.size > max_size_bytes:
             raise HttpResponseBadRequest(
                 f"Слишком большой размер изображения. Максимальный размер - {self.max_size} MB.")
+
 
 
 class Classification:
@@ -145,3 +162,6 @@ class Classification:
         }
 
         return prediction_dict
+    
+if __name__ == '__main__':
+    pass
