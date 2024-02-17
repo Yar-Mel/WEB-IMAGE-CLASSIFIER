@@ -17,3 +17,6 @@ keras = "^3.0.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+keras = ">=2.9.0rc0,<2.10.0"
+tensorflow-io-gcs-filesystem = "0.31.0"
+tensorflow = "2.9.3"

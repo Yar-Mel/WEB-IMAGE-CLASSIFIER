@@ -40,7 +40,7 @@ def statistic(request):
 
 def results(request):
     print('start classification')
+    print(upload.image)
     classification = Classification(CIFAR_10_model, upload.image)
-    predictions = classification.get_prediction()
+    predictions = classification()
     return JsonResponse(predictions)
-    # else Another model
