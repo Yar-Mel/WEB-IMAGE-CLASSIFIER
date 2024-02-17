@@ -1,0 +1,5 @@
+Total params: 187402 (732.04 KB)
+Trainable params: 186826 (729.79 KB)
+Non-trainable params: 576 (2.25 KB)
+F1 score: 77.78%
+ROC-AUC score: 97.38%

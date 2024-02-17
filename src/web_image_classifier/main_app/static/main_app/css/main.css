@@ -44,12 +44,13 @@ canvas {
 .pulled ul li {
   list-style: none;
   margin-right: 2rem;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 .pulled ul li span{
   font-size:1.2rem;
 }
+
 
 /* Larger than mobile */
 

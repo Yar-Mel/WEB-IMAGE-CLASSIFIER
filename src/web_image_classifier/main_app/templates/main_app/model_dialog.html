@@ -9,7 +9,7 @@
       <br>
       <form id="upload-form" class="center" enctype="multipart/form-data">
         {% csrf_token %}
-        {{form.as_p}}
+        {{upload_form.as_p}}
       </form>
       <br>
       <div id="upload-progress-box" class="not-visible"></div>

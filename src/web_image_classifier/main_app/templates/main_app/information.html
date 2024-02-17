@@ -1,33 +1,43 @@
 {% extends "main_app/index.html" %}
 
 {% block content %}
+{% load static %}
   <div class="container">
     <div class="row">
-      <div class="col-sm-8 col-md-4">
-        <h3 class="main-h3 main-text">some data</h3>
+      <div class="col-md-6">
+        <h2 class="main-h2">CIFAR-10 Model</h2>
         <ul class="main-text">
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
+          <li><p>{{ model_10_info.0 }}</p></li>
+          <li><p>{{ model_10_info.1 }}</p></li>
+          <li><p>{{ model_10_info.2 }}</p></li>
+        </ul>
+        <h3 class="main-text">Accuracy and Loss</h3>
+        <div class="image-box">
+          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
+          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
+        </div>
+        <br>
+        <ul class="main-text">
+          <li><p>{{ model_10_info.3 }}</p></li>
+          <li><p>{{ model_10_info.4 }}</p></li>
         </ul>
       </div>
-      <div class="col-xs-8 col-md-4">
-        <h3 class="main-h3 main-text">some data</h3>
+      <div class="col-md-6">
+        <h2 class="main-h2">CIFAR-100 Model</h2>
         <ul class="main-text">
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
+          <li><p>{{ model_100_info.0 }}</p></li>
+          <li><p>{{ model_100_info.1 }}</p></li>
+          <li><p>{{ model_100_info.2 }}</p></li>
         </ul>
-      </div>
-      <div class="col-xs-8 col-md-4">
-        <h3 class="main-h3 main-text">some data</h3>
+        <h3 class="main-text">Accuracy and Loss</h3>
+        <div class="image-box">
+          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
+          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
+        </div>
+        <br>
         <ul class="main-text">
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
-          <li>data</li>
+          <li><p>{{ model_100_info.3 }}</p></li>
+          <li><p>{{ model_100_info.4 }}</p></li>
         </ul>
       </div>
     </div>
