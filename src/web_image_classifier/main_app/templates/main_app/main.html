@@ -1,6 +1,7 @@
 {% extends "main_app/index.html" %}
 
 {% block content %}
+<main>
     <div class="container">
       <div class="row top">
         <div class="twelve column">
@@ -8,7 +9,8 @@
           <h3 class="main-h3 main-text">
               This web service classifies images using<br>
               <i>convolutional neural networks</i>.<br>
-              A neural networks capable of assigning an image<br>
+              The <u><a class="main-text" href="https://www.kaggle.com/c/cifar-10">CIFAR-10</a></u> dataset was used for training.<br>
+              A neural network capable of assigning an image<br>
               to one of the available classes.<br>
           </h3>
         </div>
@@ -16,32 +18,27 @@
       <div class="row">
         <div class="one-half column">
           <div class="pulled">
-            <h2 class="main-h2">Models detail</h2>
+            <h2 class="main-h2">Model detail</h2>
             <ul class="main-text">
-                <li><p>Accuracy:</p>
-                    <ul class="main-text">
-                        <li><p>CIFAR-10 model: 91%</p></li>
-                        <li><p>CIFAR-100 model: 72%</p></li>
-                    </ul>
-                </li>
-                <li><p>Number of classes:</p>
-                    <ul class="main-text">
-                        <li><p>CIFAR-10 model: 10</p></li>
-                        <li><p>CIFAR-100 model: 100</p></li>
-                    </ul>
-                </li>
+                <li><p>Model type: Convolutional</p></li>
+                <li><p>Batch size: 32</p></li>
+                <li><p>Training epochs: 25</p></li>
+                <li><p>Optimizer: Adam</p></li>
+                <li><p>Loss function: Categorical crossentropy</p></li>
             </ul>
           </div>
         </div>
         <div class="one-half column">
           <div class="posts pulled">
-            <h2 class="main-h2">Datasets information</h2>
-              <ul class="main-text">
-                <li><a class="main-text" href="https://www.kaggle.com/c/cifar-10"><u>CIFAR-10</u></a></li>
-                <li><a class="main-text" href="https://www.kaggle.com/c/cifar-100"><u>CIFAR-100</u></a></li>
-              </ul>
+            <h2 class="main-h2">Available classes</h2>
+              <p class="main-text">
+                {% for class in classes %}
+                  {{ class|upper }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+              </p>
           </div>
         </div>
       </div>
     </div>
+</main>
 {% endblock %}

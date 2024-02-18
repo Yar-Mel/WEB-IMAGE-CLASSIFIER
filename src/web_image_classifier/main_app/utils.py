@@ -4,15 +4,18 @@ import tensorflow as tf
 from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
+from copy import deepcopy
+import keras
+from .tf_models.models_info import CIFAR_10_LIST
 
 
 class UploadProcessing:
-    def __init__(self, allowed_extensions=('.jpg', '.jpeg', '.SVG'), max_size=50):
+    def __init__(self, allowed_extensions=('.jpg', '.jpeg', '.SVG', '.png'), max_size=50):
         """
         Инициализирует объект UploadProcessing.
 
         Parameters:
-        - allowed_extensions (tuple): Кортеж допустимых расширений файлов изображений. По умолчанию ('.jpg', '.jpeg', '.SVG').
+        - allowed_extensions (tuple): Кортеж допустимых расширений файлов изображений. По умолчанию ('.jpg', '.jpeg', '.SVG', '.png').
         - max_size (int): Максимальный допустимый размер файла изображения в мегабайтах. По умолчанию 50 MB.
         """
         self._image = None
@@ -20,14 +23,14 @@ class UploadProcessing:
         self.max_size = max_size
 
     @property
-    def image_file(self):
+    def image(self):
         """
         Возвращает файл изображения.
         """
         return self._image
 
-    @image_file.setter
-    def image_file(self, value):
+    @image.setter
+    def image(self, value):
         """
         Устанавливает файл изображения и выполняет его валидацию.
 
@@ -35,7 +38,7 @@ class UploadProcessing:
         - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
         """
         self._validate_image(value)
-        self._image = value
+        self._image = deepcopy(value)
 
     def _validate_image(self, image):
         """
@@ -86,22 +89,9 @@ class ImageClassification:
         self.image_file = image_file
 
     ALLOWED_EXTENSION = {
-        'rastr': ('.jpg', '.jpeg'),
-        'vector': ('SVG',)
+        'rastr': ('.jpg', '.jpeg', '.png'),
+        'vector': ('.SVG',)
     }
-
-    def __call__(self, *args, **kwargs):
-        """
-        Метод для вызова класса как функции.
-        """
-        if self.image_file.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
-            image_array = self.process_image_raster(self.image_file)
-            predictions = self.get_prediction(image_array, self.model)
-        elif self.image_file.lower().endswith(self.ALLOWED_EXTENSION['vector']):
-            image_array = self.process_image_raster(self.image_file)
-            predictions = self.get_prediction(image_array, self.model)
-
-        return predictions
 
     def process_image_raster(self, image_file: Image, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
         """
@@ -147,19 +137,28 @@ class ImageClassification:
         Returns:
         - prediction (dict): Словарь с предсказанными классами изображения моделью.
         """
-        model = tf.keras.models.load_model(model)
+        model = keras.models.load_model(model)
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
-        classes = ['class1', 'class2', 'class3']  # Замените на реальные имена классов
-        probabilities = prediction[0][top_classes[0]].numpy()
+        probabilities = prediction[0][top_classes[0]]
         prediction_dict = {
-            'first': classes[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
-            'second': classes[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
-            'third': classes[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
+            'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
+            'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
+            'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
         }
 
         return prediction_dict
 
+    def get_results(self):
+        """
+        Метод для вызова класса как функции.
+        """
 
-if __name__ == '__main__':
-    pass
+        if self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
+            image_array = self.process_image_raster(self.image_file)
+            predictions = self.get_prediction(image_array, self.model)
+        elif self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['vector']):
+            image_array = self.process_image_vector(self.image_file)
+            predictions = self.get_prediction(image_array, self.model)
+
+        return predictions

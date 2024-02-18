@@ -38,11 +38,10 @@ window.onclick = function(event) {
 
 //UPLOAD FORM
 input.addEventListener('change', ()=>{
-    classificationBox.classList.remove('not-visible')
-    classification_btn.classList.remove('not-visible')
     progressBox.classList.remove('not-visible')
     cancelBox.classList.remove('not-visible')
-    uploadForm.classList.add('not-visible')
+
+//    uploadForm.classList.add('not-visible')
 
     const img_data = input.files[0]
     const url = URL.createObjectURL(img_data)
@@ -93,6 +92,8 @@ input.addEventListener('change', ()=>{
             return xhr
         },
         success: function(response){
+            classificationBox.classList.remove('not-visible')
+
             imageBox.innerHTML = `<img src='${url}' class="fit">`
             alertBox.innerHTML = `<div
                 class="alert alert-success center"
@@ -100,6 +101,8 @@ input.addEventListener('change', ()=>{
             </div>`
         },
         error: function(error){
+            classificationBox.classList.add('not-visible')
+
             console.log(error)
             alertBox.innerHTML = `<div
                 class="alert alert-danger center"

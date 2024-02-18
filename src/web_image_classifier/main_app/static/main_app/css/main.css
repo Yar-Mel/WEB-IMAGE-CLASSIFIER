@@ -1,11 +1,9 @@
 body {
   background: #282931;
   font-family: 'Varela Round', sans-serif;
-  height: 100%;
 }
 
 canvas {
-  height: 100vh;
   z-index: -10;
   position: fixed;
   top: 0px;

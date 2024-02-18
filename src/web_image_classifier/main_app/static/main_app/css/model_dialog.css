@@ -57,14 +57,18 @@
 
 .modal-header {
   padding: 2px 16px;
+  height: 50px;
   background-color: #282931;
   color: #fc3565;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+}
 
 .modal-footer {
   padding: 2px 16px;
+  height: 50px;
   background-color: #282931;
   color: #fc3565;
 }

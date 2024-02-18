@@ -2,44 +2,32 @@
 
 {% block content %}
 {% load static %}
+<main>
   <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h2 class="main-h2">CIFAR-10 Model</h2>
-        <ul class="main-text">
-          <li><p>{{ model_10_info.0 }}</p></li>
-          <li><p>{{ model_10_info.1 }}</p></li>
-          <li><p>{{ model_10_info.2 }}</p></li>
-        </ul>
-        <h3 class="main-text">Accuracy and Loss</h3>
-        <div class="image-box">
-          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
-          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
-        </div>
-        <br>
-        <ul class="main-text">
-          <li><p>{{ model_10_info.3 }}</p></li>
-          <li><p>{{ model_10_info.4 }}</p></li>
+    <div class="col-md-12">
+      <h2 class="main-h2 center">CIFAR-10 Model</h2>
+      <div class="center">
+        <ul class="main-text" style="list-style:none">
+          <li><h2>{{ model_10_info.0 }}</h2></li>
+          <li><h2>{{ model_10_info.1 }}</h2></li>
+          <li><h2>{{ model_10_info.2 }}</h2></li>
         </ul>
       </div>
-      <div class="col-md-6">
-        <h2 class="main-h2">CIFAR-100 Model</h2>
-        <ul class="main-text">
-          <li><p>{{ model_100_info.0 }}</p></li>
-          <li><p>{{ model_100_info.1 }}</p></li>
-          <li><p>{{ model_100_info.2 }}</p></li>
-        </ul>
-        <h3 class="main-text">Accuracy and Loss</h3>
-        <div class="image-box">
-          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
-          <img src="{% static 'main_app/img/cifar_10.png' %}"/>
-        </div>
-        <br>
-        <ul class="main-text">
-          <li><p>{{ model_100_info.3 }}</p></li>
-          <li><p>{{ model_100_info.4 }}</p></li>
+      <div class="image-box center">
+        <img src="{% static 'main_app/img/cifar_10_plt.png' %}"/>
+      </div>
+      <br>
+      <div class="image-box center">
+        <img src="{% static 'main_app/img/cifar_10_cm.png' %}"/>
+      </div>
+      <br>
+      <div class="center">
+        <ul class="main-text" style="list-style:none">
+          <li><h2>{{ model_10_info.3 }}</h2></li>
+          <li><h2>{{ model_10_info.4 }}</h2></li>
         </ul>
       </div>
     </div>
   </div>
+</main>
 {% endblock %}
