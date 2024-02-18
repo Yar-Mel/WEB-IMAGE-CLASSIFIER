@@ -159,21 +159,14 @@ class Classification:
         model = keras.models.load_model(model)
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
-        print(f'Its our top classes[0] !!!!{top_classes[0]}')
-        # probabilities = prediction[0][top_classes[0]]
+        probabilities = prediction[0][top_classes[0]]
         prediction_dict = {
-            'first': CIFAR_10_LIST[top_classes[0][0]],
-            'second': CIFAR_10_LIST[top_classes[0][1]],
-            'third': CIFAR_10_LIST[top_classes[0][2]],
+            'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
+            'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
+            'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
         }
-        print(prediction_dict)
-        # prediction_dict = {
-        #     'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
-        #     'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
-        #     'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
-        # }
 
-        # return prediction_dict
+        return prediction_dict
     
 if __name__ == '__main__':
     # Путь к файлу вашей модели TensorFlow
