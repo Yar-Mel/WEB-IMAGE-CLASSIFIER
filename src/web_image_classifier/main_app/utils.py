@@ -6,7 +6,9 @@ from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
 import matplotlib.pyplot as plt
-import io
+from copy import deepcopy
+import keras
+from .tf_models.models_info import CIFAR_10_LIST
 
 
 
@@ -39,7 +41,7 @@ class UploadProcessing:
         - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
         """
         self._validate_image(value)
-        self._image = value
+        self._image = deepcopy(value)
 
     def _validate_image(self, image):
         """
@@ -103,7 +105,6 @@ class Classification:
 
         if self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
             image_array = self.process_image_raster(self.image_file)
-            print('image_array')
             predictions = self.get_prediction(image_array, self.model)
         elif self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['vector']):
             image_array = self.process_image_vector(self.image_file)
@@ -122,7 +123,6 @@ class Classification:
         Returns:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
         """
-        print(type(image_file))
         image = Image.open(image_file)
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
@@ -156,32 +156,40 @@ class Classification:
         Returns:
         - prediction (dict): Словарь с предсказанными классами изображения моделью.
         """
-        model = tf.keras.models.load_model(model)
+        model = keras.models.load_model(model)
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
-        probabilities = prediction[0][top_classes[0]].numpy()
+        print(f'Its our top classes[0] !!!!{top_classes[0]}')
+        # probabilities = prediction[0][top_classes[0]]
         prediction_dict = {
-            'first': top_classes[0][0] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
-            'second': top_classes[0][1] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
-            'third': top_classes[0][2] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
+            'first': CIFAR_10_LIST[top_classes[0][0]],
+            'second': CIFAR_10_LIST[top_classes[0][1]],
+            'third': CIFAR_10_LIST[top_classes[0][2]],
         }
+        print(prediction_dict)
+        # prediction_dict = {
+        #     'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
+        #     'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
+        #     'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
+        # }
 
-        return prediction_dict
+        # return prediction_dict
     
 if __name__ == '__main__':
     # Путь к файлу вашей модели TensorFlow
     model_path = 'src/web_image_classifier/main_app/tf_models/model_cifar10.h5'
 
+    model = keras.models.load_model(model_path)
+
     # Путь к вашему изображению
     image_path = 'src/web_image_classifier/main_app/test_image/plain.jpg'
 
-    classification = Classification(model=model_path, image_file=image_path)
+    # classification = Classification(model=model_path, image_file=image_path)
 
-    prediction = classification()
+    # predictions = classification()
 
-    # Process the image raster
-    image_array = classification.process_image_raster(image_file=image_path)
+    # print(predictions)
 
-    plt.imshow(image_array)
-    plt.axis('off')  # Turn off axis
-    plt.show()
+    # plt.imshow(image_array)
+    # plt.axis('off')  # Turn off axis
+    # plt.show()

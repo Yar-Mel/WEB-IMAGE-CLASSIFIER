@@ -6,6 +6,11 @@ from .utils import UploadProcessing, Classification
 
 upload = UploadProcessing()
 
+PATH_TO_MODEL ={
+    'cifar_10_model':'src/web_image_classifier/main_app/tf_models/model_cifar10.h5',
+    'cifar_10_90_vgg_16':'./tf_models/model_cifar10_90_vgg16.h5'
+}
+
 
 def upload_image(request):
     form = UploadForm(request.POST or None, request.FILES or None)
@@ -41,7 +46,7 @@ def statistic(request):
 def results(request):
     print('start classification')
     if upload.image:
-        classification = Classification(CIFAR_10_model, upload.image)
+        classification = Classification(PATH_TO_MODEL['cifar_10_model'], upload.image)
         predictions = classification()
         return JsonResponse(predictions)
     else:
