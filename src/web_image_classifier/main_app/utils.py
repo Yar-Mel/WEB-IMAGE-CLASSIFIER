@@ -4,13 +4,17 @@ import tensorflow as tf
 from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
-from copy import deepcopy
-import keras
+from itertools import chain
 from .tf_models.models_info import CIFAR_10_LIST
+
+ALLOWED_EXTENSION = {
+        'rastr': ('jpg', 'jpeg', 'png'),
+        'vector': ('svg',)
+    }
 
 
 class UploadProcessing:
-    def __init__(self, allowed_extensions=('.jpg', '.jpeg', '.SVG', '.png'), max_size=50):
+    def __init__(self, allowed_extensions=tuple(chain.from_iterable(ALLOWED_EXTENSION.values())), max_size=50):
         """
         Инициализирует объект UploadProcessing.
 
@@ -38,7 +42,7 @@ class UploadProcessing:
         - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
         """
         self._validate_image(value)
-        self._image = deepcopy(value)
+        self._image = Image.open(value)
 
     def _validate_image(self, image):
         """
@@ -88,10 +92,6 @@ class ImageClassification:
         self.model = model
         self.image_file = image_file
 
-    ALLOWED_EXTENSION = {
-        'rastr': ('.jpg', '.jpeg', '.png'),
-        'vector': ('.SVG',)
-    }
 
     def process_image_raster(self, image_file: Image, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
         """
@@ -104,17 +104,16 @@ class ImageClassification:
         Returns:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
         """
-        image = Image.open(image_file)
 
         # Проверяем расширение файла
-        if image_file.name.endswith('.png'):
-            # Если файл имеет расширение .png, конвертируем его в режим RGB
-            image = image.convert('RGB')
+        if image_file.format.lower() == 'png':
+            # Если файл имеет расширение png, конвертируем его в режим RGB
+            image = image_file.convert('RGB')
         else:
             # Иначе, просто открываем изображение
-            image = image.convert('RGB')
+            image = image_file.convert('RGB')
 
-
+        print(image_file.format)
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
         return image_array
@@ -162,11 +161,10 @@ class ImageClassification:
         """
         Метод для вызова класса как функции.
         """
-
-        if self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
+        if self.image_file.format.lower() in ALLOWED_EXTENSION['rastr']:
             image_array = self.process_image_raster(self.image_file)
             predictions = self.get_prediction(image_array, self.model)
-        elif self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['vector']):
+        elif self.image_file.format.lower() in ALLOWED_EXTENSION['vector']:
             image_array = self.process_image_vector(self.image_file)
             predictions = self.get_prediction(image_array, self.model)
 
