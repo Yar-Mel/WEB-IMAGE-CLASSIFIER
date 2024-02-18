@@ -137,7 +137,6 @@ class ImageClassification:
         Returns:
         - prediction (dict): Словарь с предсказанными классами изображения моделью.
         """
-        model = keras.models.load_model(model)
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
         probabilities = prediction[0][top_classes[0]]
