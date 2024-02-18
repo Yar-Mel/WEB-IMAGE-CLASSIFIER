@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
 from itertools import chain
+from copy import deepcopy
 from .tf_models.models_info import CIFAR_10_LIST
 
 ALLOWED_EXTENSION = {
@@ -42,7 +43,7 @@ class UploadProcessing:
         - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
         """
         self._validate_image(value)
-        self._image = Image.open(value)
+        self._image = deepcopy(Image.open(value))
 
     def _validate_image(self, image):
         """
@@ -113,7 +114,6 @@ class ImageClassification:
             # Иначе, просто открываем изображение
             image = image_file.convert('RGB')
 
-        print(image_file.format)
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
         return image_array
