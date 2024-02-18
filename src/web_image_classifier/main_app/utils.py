@@ -105,6 +105,16 @@ class ImageClassification:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
         """
         image = Image.open(image_file)
+
+        # Проверяем расширение файла
+        if image_file.name.endswith('.png'):
+            # Если файл имеет расширение .png, конвертируем его в режим RGB
+            image = image.convert('RGB')
+        else:
+            # Иначе, просто открываем изображение
+            image = image.convert('RGB')
+
+
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
         return image_array
