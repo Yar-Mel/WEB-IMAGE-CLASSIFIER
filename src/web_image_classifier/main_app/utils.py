@@ -2,10 +2,9 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 from django.http import HttpResponseBadRequest
-# from . import tf_models as models
 import cv2
 from typing import Tuple
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from copy import deepcopy
 import keras
 from .tf_models.models_info import CIFAR_10_LIST
