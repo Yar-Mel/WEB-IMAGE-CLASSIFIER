@@ -132,7 +132,7 @@ class ImageClassification:
 
         Parameters:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
-        - model (str): Путь к файлу модели TensorFlow в формате .h5.
+        - model (str): Файл модели TensorFlow в формате .h5.
 
         Returns:
         - prediction (dict): Словарь с предсказанными классами изображения моделью.
