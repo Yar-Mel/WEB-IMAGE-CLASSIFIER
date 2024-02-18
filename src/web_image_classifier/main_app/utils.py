@@ -5,7 +5,6 @@ from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
 from copy import deepcopy
-import keras
 from .tf_models.models_info import CIFAR_10_LIST
 
 
@@ -132,12 +131,11 @@ class ImageClassification:
 
         Parameters:
         - image_array (numpy.ndarray): Массив, представляющий изображение.
-        - model (str): Путь к файлу модели TensorFlow в формате .h5.
+        - model (str): Файл модели TensorFlow в формате .h5.
 
         Returns:
         - prediction (dict): Словарь с предсказанными классами изображения моделью.
         """
-        model = keras.models.load_model(model)
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
         probabilities = prediction[0][top_classes[0]]

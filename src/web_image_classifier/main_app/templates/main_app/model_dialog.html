@@ -12,17 +12,21 @@
         {{upload_form.as_p}}
       </form>
       <div id="upload-progress-box" class="not-visible"></div>
-      <div id="classification-box" class="not-visible center" style="margin-top: 50px" >
-        <button  type="button"
-                 id="classification-btn"
-                 data-url="{% url 'main_app:results' %}"
-                 class="btn btn-success alink" style="border-radius: 25px">Start Classification
-        </button>
-      </div>
-      <div class="center main-text">
-        <p id="first"></p>
-        <p id="second"></p>
-        <p id="third"></p>
+      <div id="classification-box" class="not-visible" style="margin-top: 25px" >
+        <div class="center">
+          <button  type="button"
+                   id="classification-btn"
+                   data-url="{% url 'main_app:results' %}"
+                   class="btn btn-success alink" style="border-radius: 25px; margin-bottom: 25px;">Start Classification
+          </button>
+        </div>
+        <div id="results-box" class="center">
+          <ul class="result-text" style="list-style:none; margin-top: 25px;">
+            <li><h2 id="first"></h2></li>
+            <li><h2 id="second"></h2></li>
+            <li><h2 id="third"></h2></li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="modal-footer center">

@@ -15,6 +15,8 @@ const progressBox = document.getElementById('upload-progress-box')
 const classificationBox = document.getElementById('classification-box')
 const classification_btn = document.getElementById("classification-btn")
 
+const resultsBox = document.getElementById('results-box')
+
 const cancelBox = document.getElementById('cancel-box')
 const cancelBtn = document.getElementById('cancel-btn')
 
@@ -40,6 +42,7 @@ window.onclick = function(event) {
 input.addEventListener('change', ()=>{
     progressBox.classList.remove('not-visible')
     cancelBox.classList.remove('not-visible')
+    resultsBox.classList.add('not-visible')
 
 //    uploadForm.classList.add('not-visible')
 
@@ -124,6 +127,8 @@ $(document).on('click', '.alink', function () {
         url: url,
         data: "json",
         success : function(results) {
+            resultsBox.classList.remove('not-visible')
+
             results = JSON.stringify(results)
             results = JSON.parse(results)
             document.getElementById("first").innerHTML = results.first
