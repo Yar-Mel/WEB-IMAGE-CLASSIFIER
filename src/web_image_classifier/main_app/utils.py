@@ -150,9 +150,9 @@ class ImageClassification:
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
         probabilities = prediction[0][top_classes[0]]
         prediction_dict = {
-            'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
-            'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
-            'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
+            'first': (CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%').capitalize(),
+            'second': (CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%').capitalize(),
+            'third': (CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%').capitalize(),
         }
 
         return prediction_dict
