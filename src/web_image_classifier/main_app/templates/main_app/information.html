@@ -5,12 +5,28 @@
 <main>
   <div class="container">
     <div class="col-md-12">
-      <h2 class="main-h2 center">CIFAR-10 Model</h2>
-      <div class="center">
-        <ul class="main-text" style="list-style:none">
-          <li><h2>{{ model_10_info.0 }}</h2></li>
-          <li><h2>{{ model_10_info.1 }}</h2></li>
-          <li><h2>{{ model_10_info.2 }}</h2></li>
+      <h1 class="main-h1 center">CIFAR-10 Model</h1>
+        <h2 class="main-text center" style="padding-bottom: 50px" >This neural network is a convolutional neural network (CNN) for
+          image classification of the CIFAR-10 dataset.
+          The main elements include three convolutional layers, batch normalization,
+          MaxPooling, Dropout for regularization and two connected layers.
+        </h2>
+      <h2 class="main-h2 center">Architectural elements:</h2>
+      <div class="center" style="padding-bottom: 50px">
+        <ul class="main-text">
+          <li><h2>First convolutional layer (Conv2D) with 32 filters and ReLU activation function, followed by batch normalization and Dropout.</h2></li>
+          <li><h2>A second convolutional layer (Conv2D) with 64 filters that uses the ReLU activation function and also has batch normalization.</h2></li>
+          <li><h2>Third convolutional layer (Conv2D) with 128 filters, with ReLU activation function and batch normalization. MaxPooling is also used for size reduction.</h2></li>
+          <li><h2>A connected layer (Dense) with 256 neurons and a ReLU activation function followed by Dropout for further regularization.</h2></li>
+          <li><h2>Final connected layer (Dense) with 10 neurons for classification with softmax activation function.</h2></li>
+        </ul>
+      </div>
+      <h2 class="main-h2 center">Tuning:</h2>
+      <div class="center" >
+        <ul class="main-text">
+          <li><h2>Used gate initializer (he_normal) and glorot_uniform for efficient weight initialization.</h2></li>
+          <li><h2>The Adam optimizer and the categorical cross-entropy loss function.</h2></li>
+          <li><h2>Used early stop and reduced learning rate to manage learning duration and performance.</h2></li>
         </ul>
       </div>
       <div class="image-box center">
@@ -23,8 +39,9 @@
       <br>
       <div class="center">
         <ul class="main-text" style="list-style:none">
-          <li><h2>{{ model_10_info.3 }}</h2></li>
-          <li><h2>{{ model_10_info.4 }}</h2></li>
+          <li><h2>Total params: 187402 (732.04 KB)</h2></li>
+          <li><h2>Trainable params: 186826 (729.79 KB)</h2></li>
+          <li><h2>Non-trainable params: 576 (2.25 KB)</h2></li>
         </ul>
       </div>
     </div>

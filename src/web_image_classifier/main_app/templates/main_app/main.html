@@ -1,44 +1,42 @@
 {% extends "main_app/index.html" %}
 
 {% block content %}
-<main>
-    <div class="container">
-      <div class="row top">
-        <div class="twelve column">
-          <h1 class="main-h1">Web Image Classifier</h1>
-          <h3 class="main-h3 main-text">
-              This web service classifies images using<br>
-              <i>convolutional neural networks</i>.<br>
-              The <u><a class="main-text" href="https://www.kaggle.com/c/cifar-10">CIFAR-10</a></u> dataset was used for training.<br>
-              A neural network capable of assigning an image<br>
-              to one of the available classes.<br>
-          </h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="one-half column">
-          <div class="pulled">
-            <h2 class="main-h2">Model detail</h2>
-            <ul class="main-text">
-                <li><p>Model type: Convolutional</p></li>
-                <li><p>Batch size: 32</p></li>
-                <li><p>Training epochs: 25</p></li>
-                <li><p>Optimizer: Adam</p></li>
-                <li><p>Loss function: Categorical crossentropy</p></li>
-            </ul>
-          </div>
-        </div>
-        <div class="one-half column">
-          <div class="posts pulled">
-            <h2 class="main-h2">Available classes</h2>
-              <p class="main-text">
-                {% for class in classes %}
-                  {{ class|upper }}{% if not forloop.last %},{% endif %}
-                {% endfor %}
-              </p>
-          </div>
-        </div>
+<div class="container middle">
+  <div class="top row">
+    <div class="twelve column">
+      <h1 class="main-h1">Web Image Classifier</h1>
+      <h3 class="main-h3 main-text">
+          This web service classifies images using<br>
+          <i>convolutional neural networks</i>.<br>
+          The <u><a class="main-text" href="https://www.kaggle.com/c/cifar-10">CIFAR-10</a></u> dataset was used for training.<br>
+          The neural network classifies the images according<br>
+          to the <i>available classes</i>.<br>
+      </h3>
+    </div>
+  </div>
+  <div class="bottom row">
+    <div class="one-half column">
+      <div class="pulled">
+        <h2 class="main-h2">Model detail</h2>
+        <ul class="main-text">
+            <li><p>Model type: Convolutional (CNN)</p></li>
+            <li><p>Loss: 0.27</p></li>
+            <li><p>Average accuracy: 78%</p></li>
+            <li><p>Average recall: 78%</p></li>
+            <li><p>Average precision: 79%</p></li>
+        </ul>
       </div>
     </div>
-</main>
+    <div class="one-half column">
+      <div class="posts pulled">
+        <h2 class="main-h2">Available classes</h2>
+          <p class="main-text">
+            {% for class in classes %}
+              {{ class|upper }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

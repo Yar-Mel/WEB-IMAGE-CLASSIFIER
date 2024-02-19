@@ -1,5 +1,4 @@
 .footer {
-  margin-top: 109px;
   bottom: 0px;
   width: 100%;
   background-color:#040404;
@@ -43,7 +42,7 @@
   list-style:none
 }
 
-.copyright-text {
+.footer-copyright-text {
   color:#737373;
   margin:0
 }

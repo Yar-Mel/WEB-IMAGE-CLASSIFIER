@@ -4,6 +4,7 @@
 	border: 1px solid #a2a2a2;
 	background-color: #FAFAFA;
 	box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+	margin-bottom: 50px;
     * {
         box-sizing: border-box;
     }
@@ -16,14 +17,11 @@
     }
 }
 
-.header h2, h3 {
-	color: #34495e;
-}
-
 .logo-header {
 	margin: 0;
 	font-size: 1.45em;
 	margin-left: 10px;
+	color: #34495e;
 }
 
 .header a {
@@ -40,24 +38,17 @@
     color: #718daa;
 }
 
-.nav a:hover {
-    color: #34495e;
-}
-
 .start-btn {
 	padding: 9px 15px;
 	text-transform: uppercase;
 	color: #FAFAFA;
 	font-size: .99em;
+	border-radius: 25px;
+    background-color: #fc3565 !important;
 }
 
 .start-btn:hover {
     color: #34495e;
-}
-
-.btn.start-btn {
-    border-radius: 25px;
-    background-color: #fc3565 !important;
 }
 
 /* =================================
@@ -85,5 +76,4 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
-
 }

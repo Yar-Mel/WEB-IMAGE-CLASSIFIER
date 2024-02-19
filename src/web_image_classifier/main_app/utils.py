@@ -4,18 +4,24 @@ import tensorflow as tf
 from django.http import HttpResponseBadRequest
 import cv2
 from typing import Tuple
+from itertools import chain
 from copy import deepcopy
 from .tf_models.models_info import CIFAR_10_LIST
 
+ALLOWED_EXTENSION = {
+        'rastr': ('jpg', 'jpeg', 'png'),
+        'vector': ('svg',)
+    }
+
 
 class UploadProcessing:
-    def __init__(self, allowed_extensions=('.jpg', '.jpeg', '.SVG', '.png'), max_size=50):
+    def __init__(self, allowed_extensions=tuple(chain.from_iterable(ALLOWED_EXTENSION.values())), max_size=50):
         """
-        Инициализирует объект UploadProcessing.
+        Initializes the UploadProcessing object.
 
         Parameters:
-        - allowed_extensions (tuple): Кортеж допустимых расширений файлов изображений. По умолчанию ('.jpg', '.jpeg', '.SVG', '.png').
-        - max_size (int): Максимальный допустимый размер файла изображения в мегабайтах. По умолчанию 50 MB.
+        - allowed_extensions (tuple): Tuple of allowed image file extensions. Default is ('.jpg', '.jpeg', '.SVG', '.png').
+        - max_size (int): Maximum allowed size of the image file in megabytes. Default is 50 MB.
         """
         self._image = None
         self.allowed_extensions = allowed_extensions
@@ -24,100 +30,104 @@ class UploadProcessing:
     @property
     def image(self):
         """
-        Возвращает файл изображения.
+        Returns the image file.
         """
         return self._image
 
     @image.setter
     def image(self, value):
         """
-        Устанавливает файл изображения и выполняет его валидацию.
+        Sets the image file and performs validation.
 
         Parameters:
-        - value (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+        - value (InMemoryUploadedFile): Image file obtained from the request.
         """
         self._validate_image(value)
-        self._image = deepcopy(value)
+        self._image = deepcopy(Image.open(value))
 
     def _validate_image(self, image):
         """
-        Проверяет расширение и размер изображения.
+        Checks the extension and size of the image.
 
         Parameters:
-        - image (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+        - image (InMemoryUploadedFile): Image file obtained from the request.
         """
-        # Проверяем расширение файла
+        # Check the file extension
         if not image.name.lower().endswith(self.allowed_extensions):
             raise HttpResponseBadRequest(
-                f"Неверное расширение изображения. Пожалуйста, загрузите файлы с расширением {', '.join(self.allowed_extensions)}.")
+                f"Invalid image extension. Please upload files with extensions {', '.join(self.allowed_extensions)}.")
 
-        # Проверяем размер файла
+        # Check the file size
         max_size_bytes = self.max_size * 1024 * 1024
         if image.size > max_size_bytes:
             raise HttpResponseBadRequest(
-                f"Слишком большой размер изображения. Максимальный размер - {self.max_size} MB.")
+                f"Image size is too large. Maximum size is {self.max_size} MB.")
 
 
 class ImageClassification:
     """
-    Класс для классификации изображений с использованием модели TensorFlow.
+    Class for image classification using TensorFlow model.
 
     Attributes:
-    - model (str): Путь к файлу модели TensorFlow в формате .h5.
-    - image_file (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+    - model (str): Path to the TensorFlow model file in .h5 format.
+    - image_file (InMemoryUploadedFile): Image file obtained from the request.
 
     Methods:
-    - __call__(*args, **kwargs): Метод для вызова класса как функции.
+    - __call__(*args, **kwargs): Method to call the class as a function.
     - process_image_raster(image_file: str, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
-        Обрабатывает растровое изображение.
+        Processes raster image.
     - process_image_vector(vector_image: str, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
-        Преобразует векторное изображение.
+        Converts vector image.
     - get_prediction(image_array: np.ndarray, model: str) -> dict:
-        Получает предсказание модели на основе изображения.
+        Gets model prediction based on the image.
     """
 
     def __init__(self, model: str, image_file):
         """
-        Инициализация класса.
+        Initializes the class.
 
         Parameters:
-        - model (str): Путь к файлу модели TensorFlow в формате .h5.
-        - image_file (InMemoryUploadedFile): Файл изображения, полученный из запроса.
+        - model (str): Path to the TensorFlow model file in .h5 format.
+        - image_file (InMemoryUploadedFile): Image file obtained from the request.
         """
         self.model = model
         self.image_file = image_file
 
-    ALLOWED_EXTENSION = {
-        'rastr': ('.jpg', '.jpeg', '.png'),
-        'vector': ('.SVG',)
-    }
 
     def process_image_raster(self, image_file: Image, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
         """
-        Обрабатывает загруженное растровое изображение.
+        Processes the uploaded raster image.
 
         Parameters:
-        - image_file (InMemoryUploadedFile): Файл изображения, полученный из запроса.
-        - target_size (tuple): Целевой размер изображения после преобразования. По умолчанию (32, 32).
+        - image_file (InMemoryUploadedFile): Image file obtained from the request.
+        - target_size (tuple): Target size of the image after transformation. Default is (32, 32).
 
         Returns:
-        - image_array (numpy.ndarray): Массив, представляющий изображение.
+        - image_array (numpy.ndarray): Array representing the image.
         """
-        image = Image.open(image_file)
+
+        # Check the file extension
+        if image_file.format.lower() == 'png':
+            # If the file has a png extension, convert it to RGB mode
+            image = image_file.convert('RGB')
+        else:
+            # Otherwise, simply open the image
+            image = image_file.convert('RGB')
+
         image = image.resize(target_size)
         image_array = np.array(image) / 255.0
         return image_array
 
     def process_image_vector(self, vector_image: Image, target_size: Tuple[int, int] = (32, 32)) -> np.ndarray:
         """
-        Преобразует векторное изображение в формат, подходящий для модели TensorFlow.
+        Converts vector image to a format suitable for TensorFlow model.
 
         Parameters:
-        - image_file (InMemoryUploadedFile): Файл изображения, полученный из запроса.
-        - target_size (tuple): Целевой размер изображения после преобразования. По умолчанию (32, 32).
+        - image_file (InMemoryUploadedFile): Image file obtained from the request.
+        - target_size (tuple): Target size of the image after transformation. Default is (32, 32).
 
         Returns:
-        - processed_image (numpy.ndarray): Изображение в формате, подходящем для модели TensorFlow.
+        - processed_image (numpy.ndarray): Image in a format suitable for TensorFlow model.
         """
         vector_image = cv2.imread(vector_image)
         resized_image = cv2.resize(vector_image, target_size)
@@ -127,35 +137,34 @@ class ImageClassification:
 
     def get_prediction(self, image_array: np.ndarray, model: str) -> dict:
         """
-        Получает предсказание модели на основе переданного изображения и пути к файлу модели.
+        Gets model prediction based on the provided image and model file path.
 
         Parameters:
-        - image_array (numpy.ndarray): Массив, представляющий изображение.
-        - model (str): Файл модели TensorFlow в формате .h5.
+        - image_array (numpy.ndarray): Array representing the image.
+        - model (str): TensorFlow model file in .h5 format.
 
         Returns:
-        - prediction (dict): Словарь с предсказанными классами изображения моделью.
+        - prediction (dict): Dictionary with predicted image classes by the model.
         """
         prediction = model.predict(np.expand_dims(image_array, axis=0))
         top_classes = tf.argsort(prediction, axis=1, direction='DESCENDING')[:, :3]
         probabilities = prediction[0][top_classes[0]]
         prediction_dict = {
-            'first': CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%',
-            'second': CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%',
-            'third': CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%',
+            'first': (CIFAR_10_LIST[top_classes[0][0]] + ': ' + str(round(probabilities[0] * 100, 2)) + '%').capitalize(),
+            'second': (CIFAR_10_LIST[top_classes[0][1]] + ': ' + str(round(probabilities[1] * 100, 2)) + '%').capitalize(),
+            'third': (CIFAR_10_LIST[top_classes[0][2]] + ': ' + str(round(probabilities[2] * 100, 2)) + '%').capitalize(),
         }
 
         return prediction_dict
 
     def get_results(self):
         """
-        Метод для вызова класса как функции.
+        Method to call the class as a function.
         """
-
-        if self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['rastr']):
+        if self.image_file.format.lower() in ALLOWED_EXTENSION['rastr']:
             image_array = self.process_image_raster(self.image_file)
             predictions = self.get_prediction(image_array, self.model)
-        elif self.image_file.name.lower().endswith(self.ALLOWED_EXTENSION['vector']):
+        elif self.image_file.format.lower() in ALLOWED_EXTENSION['vector']:
             image_array = self.process_image_vector(self.image_file)
             predictions = self.get_prediction(image_array, self.model)
 
