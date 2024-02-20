@@ -7,6 +7,9 @@ from typing import Tuple
 from itertools import chain
 from copy import deepcopy
 from .tf_models.models_info import CIFAR_10_LIST
+import cairosvg
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
 
 ALLOWED_EXTENSION = {
         'rastr': ('jpg', 'jpeg', 'png'),
@@ -43,7 +46,27 @@ class UploadProcessing:
         - value (InMemoryUploadedFile): Image file obtained from the request.
         """
         self._validate_image(value)
+        value = self._svg_to_png(value)
         self._image = deepcopy(Image.open(value))
+
+    def _svg_to_png(self, image):
+        if not isinstance(image, InMemoryUploadedFile) or not image.name.lower().endswith('.svg'):
+            return image  # If the file is not SVG or not InMemoryUploadedFile, return it as is
+        else:
+            svg_content = image.read()  # Read the content of the SVG file
+            image.seek(0)  # Return the cursor to the beginning of the file
+            png_content = cairosvg.svg2png(bytestring=svg_content)  # Convert SVG to PNG
+    
+            # Create a BytesIO object to save the PNG image in memory
+            png_buffer = BytesIO()
+            png_buffer.write(png_content)
+            png_buffer.seek(0)
+    
+            # Create an InMemoryUploadedFile object for the PNG image
+            png_file = InMemoryUploadedFile(png_buffer, None, image.name.replace('.svg', '.png'), 'image/png', png_buffer.tell(), None)
+    
+            return png_file  # Return the PNG image
+
 
     def _validate_image(self, image):
         """
