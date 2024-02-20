@@ -14,4 +14,4 @@ CIFAR_10_LIST = [
     "truck",
 ]
 
-cifar_10_model = keras.models.load_model('src/web_image_classifier/main_app/tf_models/cifar_10.h5')
+cifar_10_model = keras.models.load_model('src/web_image_classifier/main_app/tf_models/cifar_10_final.h5')

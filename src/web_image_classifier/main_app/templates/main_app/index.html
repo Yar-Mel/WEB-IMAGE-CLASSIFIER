@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>Web Image Classifier</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css.map' %}">
         <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css.map' %}">
         <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
         <link rel="stylesheet" href="{% static 'main_app/css/model_dialog.css' %}">
         <link rel="stylesheet" href="{% static 'main_app/css/main.css' %}">
@@ -15,12 +15,15 @@
     </head>
     <body>
         {% include 'main_app/header.html' %}
-        {% include 'main_app/model_dialog.html' %}
-        {% block content %}
-        {% endblock %}
+        <main>
+            {% include 'main_app/model_dialog.html' %}
+            {% block content %}
+            {% endblock %}
+            <div id="particles-js">
+                <script src="{% static 'main_app/js/particles/particles.js' %}"></script>
+                <script src="{% static 'main_app/js/particles/app.js' %}"></script>
+            </div>
+        </main>
         {% include 'main_app/footer.html' %}
-        <div id="particles-js"></div>
-        <script src="{% static 'main_app/js/particles/particles.js' %}"></script>
-        <script src="{% static 'main_app/js/particles/app.js' %}"></script>
     </body>
 </html>
