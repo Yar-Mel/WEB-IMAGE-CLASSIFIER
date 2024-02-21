@@ -6,10 +6,13 @@ authors = ["Yaroslav Melnychuk <yarmel.dev@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.10,<3.12"
 django = "^5.0.2"
+numpy = "^1.26.4"
+pillow = "^10.2.0"
 python-dotenv = "^1.0.1"
-
+opencv-python = "^4.9.0.80"
+cairosvg = "^2.7.1"
 
 [build-system]
 requires = ["poetry-core"]
