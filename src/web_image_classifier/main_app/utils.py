@@ -3,11 +3,8 @@ import tensorflow as tf
 from django.http import HttpResponseBadRequest
 from typing import Tuple
 from itertools import chain
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from copy import deepcopy
 from PIL import Image
-from io import BytesIO
-import cairosvg
 import cv2
 from .tf_models.models_info import CIFAR_10_LIST
 import cairosvg
@@ -55,50 +52,23 @@ class UploadProcessing:
         self._image = deepcopy(Image.open(value))
 
     def _svg_to_png(self, image):
-<<<<<<< Updated upstream
         if not isinstance(image, InMemoryUploadedFile) or not image.name.lower().endswith('.svg'):
-=======
-        if not isinstance(
-            image, InMemoryUploadedFile
-        ) or not image.name.lower().endswith(".svg"):
->>>>>>> Stashed changes
             return image  # If the file is not SVG or not InMemoryUploadedFile, return it as is
         else:
             svg_content = image.read()  # Read the content of the SVG file
             image.seek(0)  # Return the cursor to the beginning of the file
             png_content = cairosvg.svg2png(bytestring=svg_content)  # Convert SVG to PNG
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
             # Create a BytesIO object to save the PNG image in memory
             png_buffer = BytesIO()
             png_buffer.write(png_content)
             png_buffer.seek(0)
-<<<<<<< Updated upstream
-    
+
             # Create an InMemoryUploadedFile object for the PNG image
             png_file = InMemoryUploadedFile(png_buffer, None, image.name.replace('.svg', '.png'), 'image/png', png_buffer.tell(), None)
-    
-            return png_file  # Return the PNG image
-
-
-=======
-
-            # Create an InMemoryUploadedFile object for the PNG image
-            png_file = InMemoryUploadedFile(
-                png_buffer,
-                None,
-                image.name.replace(".svg", ".png"),
-                "image/png",
-                png_buffer.tell(),
-                None,
-            )
 
             return png_file  # Return the PNG image
 
->>>>>>> Stashed changes
     def _validate_image(self, image):
         """
         Checks the extension and size of the image.
