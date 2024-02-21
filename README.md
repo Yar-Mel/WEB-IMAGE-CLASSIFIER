@@ -1,5 +1,13 @@
 # WEB IMAGE CLASSIFIER
 ## GO IT Data Science Project
+### Task 
+
+This web service was developed by a group of students of the GO IT online school as part of the final project of the Data Science course.
+The task was to create and train a convolutional neural network capable of assigning the image from the user to one of the available classes offered in the dataset.
+We had to independently choose the architecture of the neural network, namely: the number of convolutional layers, the number of neurons in the fully connected layer, activation functions, hyperparameters, etc. 
+
+
+
 ### Team
 * [Yaroslav Melnychuk](https://github.com/Yar-Mel)
 * [Yehor Serdiuk](https://github.com/De1c)
@@ -18,9 +26,11 @@ You can run the docker image with the application by using the following command
  
     docker run -p 80:80 -td yarmel/wic-image
 
-The start of the local server will be at http://0.0.0.0:80/
+The start of the local server will be at http://localhost/
 
 ### Model Description
+
+[Jupyter Notebook](/src/model/cifar_model.ipynb)
 
 This neural network is a convolutional neural network (CNN) for
 image classification of the CIFAR-10 dataset.
