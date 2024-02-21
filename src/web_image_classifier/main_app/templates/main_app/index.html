@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Web Image Classifier</title>
+        {% load static %}
+        <link rel="icon" href="{% static 'main_app/img/logo.ico' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.min.css.map' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/model_dialog.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'main_app/css/footer.css' %}">
+        <script src="{% static 'main_app/js/jquery-3.7.1.min.js' %}" defer></script>
+        <script src="{% static 'main_app/js/model_dialog.js' %}" defer></script>
+    </head>
+    <body>
+        {% include 'main_app/header.html' %}
+        <main>
+            {% include 'main_app/model_dialog.html' %}
+            {% block content %}
+            {% endblock %}
+            <div id="particles-js">
+                <script src="{% static 'main_app/js/particles/particles.js' %}"></script>
+                <script src="{% static 'main_app/js/particles/app.js' %}"></script>
+            </div>
+        </main>
+        {% include 'main_app/footer.html' %}
+    </body>
+</html>

@@ -1,12 +1,9 @@
 body {
   background: #282931;
-  -webkit-font-smoothing: antialiased;
   font-family: 'Varela Round', sans-serif;
-  height: 100%;
 }
 
 canvas {
-  height: 100vh;
   z-index: -10;
   position: fixed;
   top: 0px;
@@ -37,15 +34,25 @@ canvas {
   padding-bottom: 20px;
 }
 
+.middle{
+  min-height: calc(100vh - 446px);
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+
 .top {
   padding-bottom: 3rem;
-  margin-top: 60px;
+}
+
+.bottom{
+  padding-bottom: 50px;
 }
 
 .pulled ul li {
   list-style: none;
   margin-right: 2rem;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 .pulled ul li span{
@@ -53,27 +60,18 @@ canvas {
 }
 
 /* Larger than mobile */
-
 @media (min-width: 400px) {}
 
-
 /* Larger than phablet */
-
 @media (min-width: 550px) {}
 
-
 /* Larger than tablet */
-
 @media (min-width: 750px) {}
 
-
 /* Larger than desktop */
-
 @media (min-width: 1000px) {}
 
-
 /* Larger than Desktop HD */
-
 @media (min-width: 1200px) {
   h1 {
     font-size: 4rem;

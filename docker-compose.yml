@@ -1,0 +1,10 @@
+services:
+  app:
+    image: wic-image
+    container_name: wic-container
+    build:
+       context: .
+       dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
