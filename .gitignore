@@ -1,1 +1,9 @@
 .env
+.dockerignore
+.gitignore
+
+poetry.lock
+pyproject.toml
+
+__pycache__/
+.idea/

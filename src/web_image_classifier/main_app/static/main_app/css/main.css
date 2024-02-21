@@ -34,12 +34,19 @@ canvas {
   padding-bottom: 20px;
 }
 
+.middle{
+  min-height: calc(100vh - 446px);
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+
 .top {
   padding-bottom: 3rem;
 }
 
 .bottom{
-  padding-bottom: 103px;
+  padding-bottom: 50px;
 }
 
 .pulled ul li {

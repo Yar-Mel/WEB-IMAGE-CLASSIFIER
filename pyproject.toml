@@ -12,8 +12,7 @@ numpy = "^1.26.4"
 pillow = "^10.2.0"
 python-dotenv = "^1.0.1"
 opencv-python = "^4.9.0.80"
-tensorflow-io-gcs-filesystem = "0.31.0"
-tensorflow = "2.9.3"
+cairosvg = "^2.7.1"
 
 [build-system]
 requires = ["poetry-core"]
