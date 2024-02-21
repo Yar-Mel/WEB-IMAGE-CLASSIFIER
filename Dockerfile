@@ -11,6 +11,7 @@ WORKDIR $APP_HOME
 
 # Copying your application to the container
 COPY src $APP_HOME/src
+COPY .env $APP_HOME
 COPY LICENSE $APP_HOME
 COPY README.md $APP_HOME
 COPY requirements.txt $APP_HOME
